@@ -85,6 +85,7 @@ def dashboard():
 
         input_data = [N, P, K, ph, temperature, humidity, rainfall]
         crop_prediction = predict_crop(input_data)
+    
 
         # Image Upload
         file = request.files["image"]
@@ -141,4 +142,4 @@ def admin():
 
 if __name__ == "__main__":
     create_tables()
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=10000)
