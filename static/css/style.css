@@ -4,33 +4,17 @@
 body {
     margin: 0;
     font-family: 'Poppins', sans-serif;
-    background: url("/static/bg.jpg") no-repeat center center fixed;
-    background-size: cover;
-    color: #00ff9c;
+
+    /* ✅ NEW SEA BLUE BACKGROUND */
+    background: linear-gradient(to bottom right, #eaf4fb, #dbeafe);
+
+    color: #2c3e50;
     overflow-x: hidden;
     animation: fadeIn 1s ease-in;
 }
 
-/* DARK OVERLAY */
-body::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 10, 5, 0.75);
-    z-index: -2;
-}
-
-/* CYBER GRID */
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background-image:
-        linear-gradient(rgba(0,255,156,0.07) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,255,156,0.07) 1px, transparent 1px);
-    background-size: 40px 40px;
-    z-index: -1;
-}
+/* ❌ REMOVED DARK OVERLAY */
+/* ❌ REMOVED GRID BACKGROUND */
 
 /* ========================= */
 /* MAIN LAYOUT */
@@ -50,49 +34,45 @@ body::before {
     position: fixed;
     width: 220px;
     height: 100%;
-    background: rgba(0,0,0,0.9);
-    border-right: 1px solid #00ff9c;
+    background: #ffffff;
+    border-right: 1px solid #e5e7eb;
 }
 
 .sidebar a {
     display: block;
     padding: 15px;
-    color: #00ff9c;
+    color: #2c3e50;
     text-decoration: none;
     transition: 0.3s;
 }
 
 .sidebar a:hover {
-    background: rgba(0,255,156,0.1);
-    box-shadow: inset 0 0 10px #00ff9c;
+    background: #f1f5f9;
 }
 
 /* ========================= */
 /* CARD */
 /* ========================= */
 .card {
-    background: rgba(0, 255, 156, 0.05);
-    border: 1px solid rgba(0,255,156,0.3);
-    backdrop-filter: blur(12px);
-    border-radius: 15px;
+    background: #ffffff;
+    border-radius: 16px;
     padding: 20px;
     margin: 20px;
-    box-shadow: 0 0 20px rgba(0,255,156,0.2);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
     transition: 0.3s;
 }
 
 .card:hover {
     transform: translateY(-5px) scale(1.02);
-    box-shadow: 0 0 35px rgba(0,255,156,0.7);
 }
 
 /* ========================= */
 /* BUTTON */
 /* ========================= */
 button {
-    background: transparent;
-    border: 1px solid #00ff9c;
-    color: #00ff9c;
+    background: #10b981;
+    border: none;
+    color: white;
     padding: 10px 20px;
     border-radius: 8px;
     cursor: pointer;
@@ -100,9 +80,7 @@ button {
 }
 
 button:hover {
-    background: #00ff9c;
-    color: black;
-    box-shadow: 0 0 15px #00ff9c;
+    background: #059669;
 }
 
 button:active {
@@ -113,9 +91,9 @@ button:active {
 /* INPUT */
 /* ========================= */
 input {
-    background: rgba(0,0,0,0.6);
-    border: 1px solid #00ff9c;
-    color: #00ff9c;
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    color: #333;
     padding: 10px;
     border-radius: 8px;
     margin: 8px 0;
@@ -124,7 +102,7 @@ input {
 
 input:focus {
     outline: none;
-    animation: glow 1s infinite alternate;
+    border-color: #10b981;
 }
 
 /* ========================= */
@@ -146,18 +124,16 @@ input:focus {
 
 .upload-box {
     width: 100%;
-    padding: 25px;
-    border: 2px dashed #ccc;
-    border-radius: 15px;
+    padding: 30px;
+    border: 2px dashed #d1d5db;
+    border-radius: 16px;
     text-align: center;
-    background: #f9f9f9;
-    color: black;
-
-    box-sizing: border-box;
+    background: #f9fafb;
+    color: #333;
 
     display: flex;
     flex-direction: column;
-    align-items: center;   /* ⭐ FIX */
+    align-items: center;
     justify-content: center;
 }
 
@@ -168,15 +144,38 @@ input:focus {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background: rgba(0,0,0,0.85);
-    border: 1px solid #00ff9c;
-    padding: 10px;
-    border-radius: 10px;
-    box-shadow: 0 0 25px #00ff9c;
+
+    width: 320px;              /* ✅ fixed width */
+    max-width: 90vw;           /* ✅ mobile safe */
+
+    background: #111;
+    color: white;
+
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0,255,156,0.5);
+
+    z-index: 9999;             /* ✅ always on top */
 }
 
 #chatbot-btn {
-    animation: pulseBot 2s infinite;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+
+    z-index: 9999;
+
+    background: #10b981;
+    color: white;
+
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
 }
 
 /* ========================= */
@@ -187,15 +186,10 @@ input:focus {
     to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes glow {
-    from { box-shadow: 0 0 5px #00ff9c; }
-    to { box-shadow: 0 0 15px #00ff9c; }
-}
-
 @keyframes pulseBot {
-    0% { box-shadow: 0 0 10px #00ff9c; }
-    50% { box-shadow: 0 0 25px #00ff9c; }
-    100% { box-shadow: 0 0 10px #00ff9c; }
+    0% { box-shadow: 0 0 10px #10b981; }
+    50% { box-shadow: 0 0 25px #10b981; }
+    100% { box-shadow: 0 0 10px #10b981; }
 }
 
 /* ========================= */
@@ -206,7 +200,7 @@ input:focus {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #00ff9c;
+    background: #10b981;
     border-radius: 10px;
 }
 
@@ -214,7 +208,7 @@ input:focus {
 /* TABLE */
 /* ========================= */
 table tr:hover {
-    background: rgba(0,255,156,0.1);
+    background: #f1f5f9;
 }
 
 /* ========================= */
@@ -236,12 +230,68 @@ table tr:hover {
         width: 100%;
     }
 }
+
+/* ========================= */
+/* UPLOAD BUTTON */
+/* ========================= */
 .upload-btn {
     margin-top: 10px;
     padding: 10px 20px;
-    border: 1px solid #00ff9c;
     border-radius: 8px;
-    color: #00ff9c;
+    background: #10b981;
+    color: white;
     cursor: pointer;
-    display: inline-block;
+}
+/* ========================= */
+/* CHATBOT FIX (FINAL) */
+/* ========================= */
+
+.chatbot-box {
+    display: none;
+
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+
+    width: 320px;
+    height: 400px;
+
+    background: #111;
+    color: white;
+
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0,255,156,0.5);
+
+    z-index: 9999;
+
+    display: flex;
+    flex-direction: column;
+}
+
+/* HEADER */
+.chatbot-box > div:first-child {
+    padding: 10px;
+    border-bottom: 1px solid #00ff9c;
+}
+
+/* CHAT AREA */
+#chat-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+/* INPUT AREA */
+.chatbot-box .input-area {
+    display: flex;
+    padding: 10px;
+    gap: 5px;
+}
+
+.chatbot-box input {
+    flex: 1;
+}
+
+.chatbot-box button {
+    background: #10b981;
 }
