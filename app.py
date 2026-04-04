@@ -72,25 +72,28 @@ def dashboard():
         return redirect("/login")
 
     if request.method == "POST":
-        user_id = session["user_id"]
 
-        # Crop Inputs
-        N = float(request.form["N"])
-        P = float(request.form["P"])
-        K = float(request.form["K"])
-        ph = float(request.form["ph"])
-        temperature = float(request.form["temperature"])
-        humidity = float(request.form["humidity"])
-        rainfall = float(request.form["rainfall"])
+        # SAFE FETCH (prevents error)
+        try:
+            N = float(request.form.get("N", 0))
+            P = float(request.form.get("P", 0))
+            K = float(request.form.get("K", 0))
+            ph = float(request.form.get("ph", 0))
+            temperature = float(request.form.get("temperature", 0))
+            humidity = float(request.form.get("humidity", 0))
+            rainfall = float(request.form.get("rainfall", 0))
+        except:
+            return "Invalid input!"
 
-        input_data = [N, P, K, ph, temperature, humidity, rainfall]
+        input_data = [N, P, K, temperature, humidity, ph, rainfall]
         crop_prediction = predict_crop(input_data)
-    
 
-        # Image Upload
-        file = request.files["image"]
+        # IMAGE SAFE CHECK
+        file = request.files.get("image")
 
-        # VALIDATION
+        if not file or file.filename == "":
+            return "Please upload an image!"
+
         if not file.filename.lower().endswith(('.png', '.jpg', '.jpeg')):
             return "Only image files are allowed!"
 
@@ -99,23 +102,25 @@ def dashboard():
 
         disease_prediction, confidence = predict_disease(filepath)
 
-        # SAVE TO DATABASE
+        # SAVE TO DB
         conn = get_connection()
         cursor = conn.cursor()
 
         cursor.execute("""
         INSERT INTO Predictions (user_id, crop_prediction, disease_prediction)
         VALUES (?, ?, ?)
-        """, (user_id, crop_prediction, str(disease_prediction)))
+        """, (session["user_id"], crop_prediction, str(disease_prediction)))
 
         conn.commit()
         conn.close()
+
         recs = get_recommendations(crop_prediction, disease_prediction)
+
         return render_template("result.html",
-                       crop=crop_prediction,
-                       disease=disease_prediction,
-                       confidence=confidence,
-                       recs=recs)
+                               crop=crop_prediction,
+                               disease=disease_prediction,
+                               confidence=confidence,
+                               recs=recs)
 
     return render_template("dashboard.html")
 @app.route("/chatbot", methods=["POST"])
@@ -130,6 +135,9 @@ def logout():
     return redirect("/login")
 @app.route("/admin")
 def admin():
+    if "user_id" not in session:
+        return redirect("/login")
+
     conn = get_connection()
     cursor = conn.cursor()
 

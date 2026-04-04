@@ -9,7 +9,7 @@ MODEL_PATH_QDA = "models/qda_model.pkl"
 def train_model():
     data = pd.read_csv("datasets/crop/crop_data.csv")
 
-    X = data[["N", "P", "K", "ph", "temperature", "humidity", "rainfall"]]
+    X = data[["N", "P", "K","temperature", "humidity","ph", "rainfall"]]
     y = data["label"]
 
     lda = LinearDiscriminantAnalysis()
@@ -23,6 +23,14 @@ def train_model():
 
 
 def predict_crop(input_data):
-    lda = joblib.load(MODEL_PATH_LDA)
-    prediction = lda.predict([input_data])
+    import joblib
+    import numpy as np
+
+    lda = joblib.load("models/lda_model.pkl")
+
+    # Convert to numpy + reshape
+    input_array = np.array(input_data).reshape(1, -1)
+
+    prediction = lda.predict(input_array)
+
     return prediction[0]

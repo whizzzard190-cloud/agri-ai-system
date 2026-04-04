@@ -1,73 +1,51 @@
+/* ========================= */
+/* GLOBAL */
+/* ========================= */
 body {
     margin: 0;
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #000000, #001a0f);
+    background: url("/static/bg.jpg") no-repeat center center fixed;
+    background-size: cover;
     color: #00ff9c;
     overflow-x: hidden;
+    animation: fadeIn 1s ease-in;
 }
 
-/* GRID BACKGROUND */
+/* DARK OVERLAY */
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 10, 5, 0.75);
+    z-index: -2;
+}
+
+/* CYBER GRID */
 body::before {
     content: "";
     position: fixed;
-    width: 100%;
-    height: 100%;
-    background-image: linear-gradient(rgba(0,255,156,0.05) 1px, transparent 1px),
-                      linear-gradient(90deg, rgba(0,255,156,0.05) 1px, transparent 1px);
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(0,255,156,0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,255,156,0.07) 1px, transparent 1px);
     background-size: 40px 40px;
     z-index: -1;
 }
 
-/* GLASS CARD */
-.card {
-    background: rgba(0, 255, 156, 0.05);
-    border: 1px solid rgba(0,255,156,0.3);
-    backdrop-filter: blur(10px);
-    border-radius: 15px;
+/* ========================= */
+/* MAIN LAYOUT */
+/* ========================= */
+.main {
+    margin-left: 220px;
     padding: 20px;
-    margin: 20px;
-    box-shadow: 0 0 20px rgba(0,255,156,0.2);
-    transition: 0.3s;
+    max-width: 1200px;
+    margin-right: auto;
+    box-sizing: border-box;
 }
 
-.card:hover {
-    box-shadow: 0 0 30px rgba(0,255,156,0.6);
-}
-
-/* BUTTON */
-button {
-    background: transparent;
-    border: 1px solid #00ff9c;
-    color: #00ff9c;
-    padding: 10px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-button:hover {
-    background: #00ff9c;
-    color: black;
-    box-shadow: 0 0 15px #00ff9c;
-}
-
-/* INPUT */
-input {
-    background: rgba(0,0,0,0.6);
-    border: 1px solid #00ff9c;
-    color: #00ff9c;
-    padding: 10px;
-    border-radius: 8px;
-    margin: 8px 0;
-    width: 100%;
-}
-
-input:focus {
-    outline: none;
-    box-shadow: 0 0 10px #00ff9c;
-}
-
+/* ========================= */
 /* SIDEBAR */
+/* ========================= */
 .sidebar {
     position: fixed;
     width: 220px;
@@ -89,35 +67,181 @@ input:focus {
     box-shadow: inset 0 0 10px #00ff9c;
 }
 
-/* MAIN */
-.main {
-    margin-left: 220px;
+/* ========================= */
+/* CARD */
+/* ========================= */
+.card {
+    background: rgba(0, 255, 156, 0.05);
+    border: 1px solid rgba(0,255,156,0.3);
+    backdrop-filter: blur(12px);
+    border-radius: 15px;
     padding: 20px;
+    margin: 20px;
+    box-shadow: 0 0 20px rgba(0,255,156,0.2);
+    transition: 0.3s;
 }
 
-/* UPLOAD BOX */
+.card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 0 35px rgba(0,255,156,0.7);
+}
+
+/* ========================= */
+/* BUTTON */
+/* ========================= */
+button {
+    background: transparent;
+    border: 1px solid #00ff9c;
+    color: #00ff9c;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #00ff9c;
+    color: black;
+    box-shadow: 0 0 15px #00ff9c;
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+/* ========================= */
+/* INPUT */
+/* ========================= */
+input {
+    background: rgba(0,0,0,0.6);
+    border: 1px solid #00ff9c;
+    color: #00ff9c;
+    padding: 10px;
+    border-radius: 8px;
+    margin: 8px 0;
+    width: 100%;
+}
+
+input:focus {
+    outline: none;
+    animation: glow 1s infinite alternate;
+}
+
+/* ========================= */
+/* UPLOAD */
+/* ========================= */
+.upload-container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.upload-left,
+.upload-right {
+    flex: 1 1 48%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
 .upload-box {
-    border: 2px dashed #00ff9c;
-    padding: 30px;
+    width: 100%;
+    padding: 25px;
+    border: 2px dashed #ccc;
+    border-radius: 15px;
     text-align: center;
-    border-radius: 10px;
-    animation: pulse 2s infinite;
+    background: #f9f9f9;
+    color: black;
+
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;   /* ⭐ FIX */
+    justify-content: center;
 }
 
-@keyframes pulse {
+/* ========================= */
+/* CHATBOT */
+/* ========================= */
+.chatbot {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.85);
+    border: 1px solid #00ff9c;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 25px #00ff9c;
+}
+
+#chatbot-btn {
+    animation: pulseBot 2s infinite;
+}
+
+/* ========================= */
+/* ANIMATIONS */
+/* ========================= */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes glow {
+    from { box-shadow: 0 0 5px #00ff9c; }
+    to { box-shadow: 0 0 15px #00ff9c; }
+}
+
+@keyframes pulseBot {
     0% { box-shadow: 0 0 10px #00ff9c; }
     50% { box-shadow: 0 0 25px #00ff9c; }
     100% { box-shadow: 0 0 10px #00ff9c; }
 }
 
-/* CHATBOT */
-.chatbot {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: rgba(0,0,0,0.8);
-    border: 1px solid #00ff9c;
-    padding: 10px;
+/* ========================= */
+/* SCROLLBAR */
+/* ========================= */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #00ff9c;
     border-radius: 10px;
-    box-shadow: 0 0 20px #00ff9c;
+}
+
+/* ========================= */
+/* TABLE */
+/* ========================= */
+table tr:hover {
+    background: rgba(0,255,156,0.1);
+}
+
+/* ========================= */
+/* RESPONSIVE */
+/* ========================= */
+@media (max-width: 768px) {
+
+    .main {
+        margin-left: 0;
+        padding: 10px;
+    }
+
+    .upload-container {
+        flex-direction: column;
+    }
+
+    .upload-left,
+    .upload-right {
+        width: 100%;
+    }
+}
+.upload-btn {
+    margin-top: 10px;
+    padding: 10px 20px;
+    border: 1px solid #00ff9c;
+    border-radius: 8px;
+    color: #00ff9c;
+    cursor: pointer;
+    display: inline-block;
 }

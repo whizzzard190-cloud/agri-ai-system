@@ -5,35 +5,52 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
+
 <body>
 
 <div class="main">
 
-    <h1>Prediction Results</h1>
+    <h1 style="text-align:center;">⚡ AI Prediction Results</h1>
 
     <!-- SOIL BASED -->
     <div class="card">
-        <h2>ACCORDING TO SOIL</h2>
+        <h2>🌱 According to Soil</h2>
         <p><strong>Recommended Crop:</strong> {{ crop }}</p>
     </div>
 
     <!-- DISEASE BASED -->
     <div class="card">
-        <h2>DISEASE PREDICTION</h2>
+        <h2>🧬 Disease Detection</h2>
         <p><strong>Disease:</strong> {{ disease }}</p>
         <p><strong>Confidence:</strong> {{ confidence }}%</p>
     </div>
 
     <!-- RECOMMENDATIONS -->
     <div class="card">
-        <h2>RECOMMENDATIONS</h2>
-        <p><strong>Fertilizer:</strong> {{ recs.fertilizer }}</p>
-        <p><strong>Water:</strong> {{ recs.water }}</p>
-        <p><strong>Pest Control:</strong> {{ recs.pest }}</p>
-        <p><strong>Disease Advice:</strong> {{ recs.disease_advice }}</p>
+        <h2>⚙️ Smart Recommendations</h2>
+
+        <p>🌿 <strong>Fertilizer:</strong> {{ recs.fertilizer }}</p>
+        <p>💧 <strong>Water:</strong> {{ recs.water }}</p>
+        <p>🐛 <strong>Pest Control:</strong> {{ recs.pest }}</p>
+        <p>🧪 <strong>Disease Advice:</strong> {{ recs.disease_advice }}</p>
     </div>
 
-    <a href="/dashboard">⬅ Go Back</a>
+    <!-- EXTRA INFO -->
+    <div class="card">
+        <h2>📊 Tips</h2>
+        <ul>
+            <li>✔ Use recommended fertilizer carefully</li>
+            <li>✔ Monitor crop regularly</li>
+            <li>✔ Avoid overwatering</li>
+            <li>✔ Follow pest control methods strictly</li>
+        </ul>
+    </div>
+
+    <div style="text-align:center;">
+        <a href="/dashboard">
+            <button>⬅ Back to Dashboard</button>
+        </a>
+    </div>
 
 </div>
 

@@ -2,33 +2,141 @@
 <html>
 <head>
     <title>Admin Panel</title>
+
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/style.css">
+
+    <!-- CHART JS -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
 
-<h2>Admin Dashboard</h2>
+<div class="main">
 
-<table border="1">
-    <tr>
-        <th>User ID</th>
-        <th>Crop</th>
-        <th>Disease</th>
-        <th>Time</th>
-    </tr>
+    <h1 style="text-align:center;">🧑‍💼 Admin Dashboard</h1>
 
-    {% for row in data %}
-    <tr>
-        <td>{{ row[1] }}</td>
-        <td>{{ row[2] }}</td>
-        <td>{{ row[3] }}</td>
-        <td>{{ row[4] }}</td>
-    </tr>
-    {% endfor %}
+    <!-- TABLE -->
+    <div class="card">
+        <h2>📊 Prediction Logs</h2>
 
-</table>
+        <table style="width:100%; border-collapse: collapse;">
 
-<a href="/dashboard">Back</a>
+            <tr style="background: rgba(0,255,156,0.2);">
+                <th style="padding:10px;">User ID</th>
+                <th>Crop</th>
+                <th>Disease</th>
+                <th>Time</th>
+            </tr>
+
+            {% for row in data %}
+            <tr style="text-align:center; border-bottom:1px solid rgba(0,255,156,0.2);">
+                <td style="padding:10px;">{{ row[1] }}</td>
+                <td>{{ row[2] }}</td>
+                <td>{{ row[3] }}</td>
+                <td>{{ row[4] }}</td>
+            </tr>
+            {% endfor %}
+
+        </table>
+    </div>
+
+    <!-- ACCURACY GRAPH -->
+    <div class="card">
+        <h2>📈 Model Accuracy</h2>
+        <canvas id="accuracyChart"></canvas>
+    </div>
+
+    <!-- LOSS GRAPH -->
+    <div class="card">
+        <h2>📉 Model Loss</h2>
+        <canvas id="lossChart"></canvas>
+    </div>
+
+    <!-- BACK BUTTON -->
+    <div style="text-align:center;">
+        <a href="/dashboard">
+            <button>⬅ Back to Dashboard</button>
+        </a>
+    </div>
+
+</div>
+
+<!-- GRAPH SCRIPT -->
+<script>
+fetch("/static/training_history.json")   // ✅ FIXED PATH
+.then(res => res.json())
+.then(data => {
+
+    const labels = Array.from({length: data.accuracy.length}, (_, i) => i + 1);
+
+    // ACCURACY CHART
+    new Chart(document.getElementById("accuracyChart"), {
+        type: "line",
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: "Train Accuracy",
+                    data: data.accuracy,
+                    borderColor: "#00ff9c",
+                    tension: 0.3
+                },
+                {
+                    label: "Validation Accuracy",
+                    data: data.val_accuracy,
+                    borderColor: "#00e5ff",
+                    tension: 0.3
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { labels: { color: "#00ff9c" } }
+            },
+            scales: {
+                x: { ticks: { color: "#00ff9c" } },
+                y: { ticks: { color: "#00ff9c" } }
+            }
+        }
+    });
+
+    // LOSS CHART
+    new Chart(document.getElementById("lossChart"), {
+        type: "line",
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: "Train Loss",
+                    data: data.loss,
+                    borderColor: "#ff4d4d",
+                    tension: 0.3
+                },
+                {
+                    label: "Validation Loss",
+                    data: data.val_loss,
+                    borderColor: "#ffaa00",
+                    tension: 0.3
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { labels: { color: "#00ff9c" } }
+            },
+            scales: {
+                x: { ticks: { color: "#00ff9c" } },
+                y: { ticks: { color: "#00ff9c" } }
+            }
+        }
+    });
+
+})
+.catch(err => console.error("Graph loading error:", err));
+</script>
 
 </body>
 </html>

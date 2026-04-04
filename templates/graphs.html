@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Model Graphs</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<div class="main">
+
+    <h1 style="text-align:center;">📊 Model Performance</h1>
+
+    <div class="card">
+        <h2>Accuracy</h2>
+        <canvas id="accuracyChart"></canvas>
+    </div>
+
+    <div class="card">
+        <h2>Loss</h2>
+        <canvas id="lossChart"></canvas>
+    </div>
+
+</div>
+
+<script>
+fetch("/static/models/training_history.json")
+.then(res => res.json())
+.then(data => {
+
+    const labels = Array.from({length: data.accuracy.length}, (_, i) => i+1);
+
+    new Chart(document.getElementById("accuracyChart"), {
+        type: "line",
+        data: {
+            labels: labels,
+            datasets: [{
+                label: "Accuracy",
+                data: data.accuracy
+            },{
+                label: "Val Accuracy",
+                data: data.val_accuracy
+            }]
+        }
+    });
+
+    new Chart(document.getElementById("lossChart"), {
+        type: "line",
+        data: {
+            labels: labels,
+            datasets: [{
+                label: "Loss",
+                data: data.loss
+            },{
+                label: "Val Loss",
+                data: data.val_loss
+            }]
+        }
+    });
+
+});
+</script>
+
+</body>
+</html>
